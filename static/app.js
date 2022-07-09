@@ -8,7 +8,7 @@ const app = Vue.createApp({
   created() { this.update() },
   methods: {
     del: (e) => {
-      let id = e.target.id.substring(5);
+      const id = e.target.id.substring(5);
       axios.delete('/entries/' + id)
         .then(() => {
           app.content = ''
