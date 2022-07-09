@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>コメント一覧</title>
+  <script src="https://unpkg.com/vue"></script>
+  <script src="https://unpkg.com/axios"></script>
+  <link rel="stylesheet" href="style.css" media="all">
+</head>
+<body>
+  <div id="app">
+    <ul>
+      <li v-for="entry in entries" class="entries">
+        <div>{{ entry.content }} <a v-on:click="del" v-bind:id="'entry'+entry.id" href="#">×</a></div>
+      </li>
+    </ul>
+    <input v-model="content" placeholder="コメント" v-on:keydown.enter="add">
+    <button v-on:click="add">登録</button>
+  </div>
+  <script src="/app.js"></script>
+</body>
+</html>
