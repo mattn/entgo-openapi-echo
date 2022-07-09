@@ -4,7 +4,22 @@ Example app that using OpenAPI, ent and echo.
 
 ## Installation
 
-Generate ent schema.
+Create database.
+
+```
+$ sqlite3 entry.sqlite < entry.sql
+```
+
+Generate ent's schema.
+
+```
+$ go install github.com/mattn/entgen@latest
+$ entgen -driver sqlite3 -dsn ./entry.sqlite
+2022/07/09 23:40:48 Generating ent\schema\entries.go  
+
+```
+
+Generate ent client..
 
 ```
 $ go generate ./ent
