@@ -15,7 +15,7 @@ Generate ent's schema.
 ```
 $ go install github.com/mattn/entgen@latest
 $ entgen -driver sqlite3 -dsn ./entry.sqlite
-2022/07/09 23:40:48 Generating ent\schema\entries.go  
+2022/07/09 23:40:48 Generating ent/schema/entries.go  
 
 ```
 
