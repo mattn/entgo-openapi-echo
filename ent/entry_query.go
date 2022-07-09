@@ -106,7 +106,7 @@ func (eq *EntryQuery) FirstIDX(ctx context.Context) int {
 }
 
 // Only returns a single Entry entity found by the query, ensuring it only returns one.
-// Returns a *NotSingularError when exactly one Entry entity is not found.
+// Returns a *NotSingularError when more than one Entry entity is found.
 // Returns a *NotFoundError when no Entry entities are found.
 func (eq *EntryQuery) Only(ctx context.Context) (*Entry, error) {
 	nodes, err := eq.Limit(2).All(ctx)
@@ -133,7 +133,7 @@ func (eq *EntryQuery) OnlyX(ctx context.Context) *Entry {
 }
 
 // OnlyID is like Only, but returns the only Entry ID in the query.
-// Returns a *NotSingularError when exactly one Entry ID is not found.
+// Returns a *NotSingularError when more than one Entry ID is found.
 // Returns a *NotFoundError when no entities are found.
 func (eq *EntryQuery) OnlyID(ctx context.Context) (id int, err error) {
 	var ids []int
@@ -242,8 +242,9 @@ func (eq *EntryQuery) Clone() *EntryQuery {
 		order:      append([]OrderFunc{}, eq.order...),
 		predicates: append([]predicate.Entry{}, eq.predicates...),
 		// clone intermediate query.
-		sql:  eq.sql.Clone(),
-		path: eq.path,
+		sql:    eq.sql.Clone(),
+		path:   eq.path,
+		unique: eq.unique,
 	}
 }
 
@@ -261,7 +262,6 @@ func (eq *EntryQuery) Clone() *EntryQuery {
 //		GroupBy(entry.FieldContent).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
-//
 func (eq *EntryQuery) GroupBy(field string, fields ...string) *EntryGroupBy {
 	group := &EntryGroupBy{config: eq.config}
 	group.fields = append([]string{field}, fields...)
@@ -286,7 +286,6 @@ func (eq *EntryQuery) GroupBy(field string, fields ...string) *EntryGroupBy {
 //	client.Entry.Query().
 //		Select(entry.FieldContent).
 //		Scan(ctx, &v)
-//
 func (eq *EntryQuery) Select(fields ...string) *EntrySelect {
 	eq.fields = append(eq.fields, fields...)
 	return &EntrySelect{EntryQuery: eq}
