@@ -17,8 +17,6 @@ func (Entry) Fields() []ent.Field {
 	return []ent.Field{
 		field.String("content"),
 		field.Time("created_at").
-			Default(time.Now).
-			Optional().
-			Immutable(),
+			Default(time.Now),
 	}
 }

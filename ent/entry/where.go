@@ -293,20 +293,6 @@ func CreatedAtLTE(v time.Time) predicate.Entry {
 	})
 }
 
-// CreatedAtIsNil applies the IsNil predicate on the "created_at" field.
-func CreatedAtIsNil() predicate.Entry {
-	return predicate.Entry(func(s *sql.Selector) {
-		s.Where(sql.IsNull(s.C(FieldCreatedAt)))
-	})
-}
-
-// CreatedAtNotNil applies the NotNil predicate on the "created_at" field.
-func CreatedAtNotNil() predicate.Entry {
-	return predicate.Entry(func(s *sql.Selector) {
-		s.Where(sql.NotNull(s.C(FieldCreatedAt)))
-	})
-}
-
 // And groups predicates with the AND operator between them.
 func And(predicates ...predicate.Entry) predicate.Entry {
 	return predicate.Entry(func(s *sql.Selector) {

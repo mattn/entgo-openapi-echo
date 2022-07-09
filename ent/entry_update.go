@@ -6,6 +6,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"time"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
@@ -30,6 +31,20 @@ func (eu *EntryUpdate) Where(ps ...predicate.Entry) *EntryUpdate {
 // SetContent sets the "content" field.
 func (eu *EntryUpdate) SetContent(s string) *EntryUpdate {
 	eu.mutation.SetContent(s)
+	return eu
+}
+
+// SetCreatedAt sets the "created_at" field.
+func (eu *EntryUpdate) SetCreatedAt(t time.Time) *EntryUpdate {
+	eu.mutation.SetCreatedAt(t)
+	return eu
+}
+
+// SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
+func (eu *EntryUpdate) SetNillableCreatedAt(t *time.Time) *EntryUpdate {
+	if t != nil {
+		eu.SetCreatedAt(*t)
+	}
 	return eu
 }
 
@@ -117,9 +132,10 @@ func (eu *EntryUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Column: entry.FieldContent,
 		})
 	}
-	if eu.mutation.CreatedAtCleared() {
-		_spec.Fields.Clear = append(_spec.Fields.Clear, &sqlgraph.FieldSpec{
+	if value, ok := eu.mutation.CreatedAt(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeTime,
+			Value:  value,
 			Column: entry.FieldCreatedAt,
 		})
 	}
@@ -145,6 +161,20 @@ type EntryUpdateOne struct {
 // SetContent sets the "content" field.
 func (euo *EntryUpdateOne) SetContent(s string) *EntryUpdateOne {
 	euo.mutation.SetContent(s)
+	return euo
+}
+
+// SetCreatedAt sets the "created_at" field.
+func (euo *EntryUpdateOne) SetCreatedAt(t time.Time) *EntryUpdateOne {
+	euo.mutation.SetCreatedAt(t)
+	return euo
+}
+
+// SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
+func (euo *EntryUpdateOne) SetNillableCreatedAt(t *time.Time) *EntryUpdateOne {
+	if t != nil {
+		euo.SetCreatedAt(*t)
+	}
 	return euo
 }
 
@@ -256,9 +286,10 @@ func (euo *EntryUpdateOne) sqlSave(ctx context.Context) (_node *Entry, err error
 			Column: entry.FieldContent,
 		})
 	}
-	if euo.mutation.CreatedAtCleared() {
-		_spec.Fields.Clear = append(_spec.Fields.Clear, &sqlgraph.FieldSpec{
+	if value, ok := euo.mutation.CreatedAt(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeTime,
+			Value:  value,
 			Column: entry.FieldCreatedAt,
 		})
 	}

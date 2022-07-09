@@ -206,22 +206,9 @@ func (m *EntryMutation) OldCreatedAt(ctx context.Context) (v time.Time, err erro
 	return oldValue.CreatedAt, nil
 }
 
-// ClearCreatedAt clears the value of the "created_at" field.
-func (m *EntryMutation) ClearCreatedAt() {
-	m.created_at = nil
-	m.clearedFields[entry.FieldCreatedAt] = struct{}{}
-}
-
-// CreatedAtCleared returns if the "created_at" field was cleared in this mutation.
-func (m *EntryMutation) CreatedAtCleared() bool {
-	_, ok := m.clearedFields[entry.FieldCreatedAt]
-	return ok
-}
-
 // ResetCreatedAt resets all changes to the "created_at" field.
 func (m *EntryMutation) ResetCreatedAt() {
 	m.created_at = nil
-	delete(m.clearedFields, entry.FieldCreatedAt)
 }
 
 // Where appends a list predicates to the EntryMutation builder.
@@ -327,11 +314,7 @@ func (m *EntryMutation) AddField(name string, value ent.Value) error {
 // ClearedFields returns all nullable fields that were cleared during this
 // mutation.
 func (m *EntryMutation) ClearedFields() []string {
-	var fields []string
-	if m.FieldCleared(entry.FieldCreatedAt) {
-		fields = append(fields, entry.FieldCreatedAt)
-	}
-	return fields
+	return nil
 }
 
 // FieldCleared returns a boolean indicating if a field with the given name was
@@ -344,11 +327,6 @@ func (m *EntryMutation) FieldCleared(name string) bool {
 // ClearField clears the value of the field with the given name. It returns an
 // error if the field is not defined in the schema.
 func (m *EntryMutation) ClearField(name string) error {
-	switch name {
-	case entry.FieldCreatedAt:
-		m.ClearCreatedAt()
-		return nil
-	}
 	return fmt.Errorf("unknown Entry nullable field %s", name)
 }
 

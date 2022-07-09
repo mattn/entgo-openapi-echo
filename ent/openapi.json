@@ -77,7 +77,8 @@
               "schema": {
                 "type": "object",
                 "required": [
-                  "content"
+                  "content",
+                  "created_at"
                 ],
                 "properties": {
                   "content": {
@@ -214,11 +215,16 @@
               "schema": {
                 "type": "object",
                 "required": [
-                  "content"
+                  "content",
+                  "created_at"
                 ],
                 "properties": {
                   "content": {
                     "type": "string"
+                  },
+                  "created_at": {
+                    "type": "string",
+                    "format": "date-time"
                   }
                 }
               }
@@ -255,6 +261,7 @@
         "type": "object",
         "required": [
           "content",
+          "created_at",
           "id"
         ],
         "properties": {

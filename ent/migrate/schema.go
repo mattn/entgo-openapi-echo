@@ -12,7 +12,7 @@ var (
 	EntriesColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
 		{Name: "content", Type: field.TypeString},
-		{Name: "created_at", Type: field.TypeTime, Nullable: true},
+		{Name: "created_at", Type: field.TypeTime},
 	}
 	// EntriesTable holds the schema information for the "entries" table.
 	EntriesTable = &schema.Table{

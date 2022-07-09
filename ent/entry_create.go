@@ -122,6 +122,9 @@ func (ec *EntryCreate) check() error {
 	if _, ok := ec.mutation.Content(); !ok {
 		return &ValidationError{Name: "content", err: errors.New(`ent: missing required field "Entry.content"`)}
 	}
+	if _, ok := ec.mutation.CreatedAt(); !ok {
+		return &ValidationError{Name: "created_at", err: errors.New(`ent: missing required field "Entry.created_at"`)}
+	}
 	return nil
 }
 
