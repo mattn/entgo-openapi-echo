@@ -24,7 +24,7 @@ const app = Vue.createApp({
           app.update()
         })
         .catch((err) => {
-          alert(err.response.data)
+          alert(err.response.data || err.message)
         })
     },
     update: () => {
