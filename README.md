@@ -19,7 +19,7 @@ $ entgen -driver sqlite3 -dsn ./entry.sqlite -rplural
 
 ```
 
-Generate ent client..
+Generate ent client.
 
 ```
 $ go generate ./ent
@@ -29,32 +29,44 @@ Write entc.go
 
 ```
 $ cat > ent/entc.go
+//go:build ignore
 // +build ignore
 
 package main
 
 import (
-    "log"
+	"log"
 
-    "entgo.io/ent/entc"
-    "entgo.io/ent/entc/gen"
-    "entgo.io/ent/schema/field"
+	"entgo.io/contrib/entoas"
+	"entgo.io/ent/entc"
+	"entgo.io/ent/entc/gen"
 )
 
 func main() {
-    if err := entc.Generate("./schema", &gen.Config{}); err != nil {
-        log.Fatal("running ent codegen:", err)
-    }
+	ex, err := entoas.NewExtension()
+	if err != nil {
+		log.Fatalf("creating entoas extension: %v", err)
+	}
+	err = entc.Generate("./schema", &gen.Config{}, entc.Extensions(ex))
+	if err != nil {
+		log.Fatalf("running ent codegen: %v", err)
+	}
 }
 ^D
+```
+
+Then modify ent/generate.go like below.
+
+```
+//go:generate go run -mod=mod entgo.io/ent/cmd/ent@latest generate ./schema
+//go:generate go run -mod=mod entc.go
 ```
 
 Generate OpenAPI schema.
 
 ```
-$ cd ent
-$ go generate
-$ ls openapi.json
+$ go generate ./ent
+$ ls ent/openapi.json
 openapi.json
 
 $ cd ..
@@ -64,7 +76,7 @@ Generate code from openapi.json.
 
 ```
 $ go install github.com/deepmap/oapi-codegen/cmd/oapi-codegen@latest
-$ oapi-codegen -package main -generate server -old-config-style ent/openapi.json > oapi.go                   
+$ oapi-codegen -package main -generate server -old-config-style ent/openapi.json > oapi.go
 ```
 
 Build
